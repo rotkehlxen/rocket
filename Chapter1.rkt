@@ -1,4 +1,5 @@
 #lang sicp
+;; Factorial -----
 ; The following implementations are RECURSIVE PROCEDURES,
 ; however the resulting process is recursive in factorial, 
 ; but iterative in factorial-v2
@@ -28,7 +29,7 @@
 ; every iteration can be stated as a recursive procedure!! 
 
 
-; newtons method for calculating square roots
+;; Newtons method for calculating square roots -----
 (define (average x y) (/ (+ x y) 2))
 (define (improve guess x) (average guess (/ x guess)))
 (define (good-enough? guess x)
@@ -46,7 +47,8 @@
       guess
       (sqrt-iter (improve guess x) x)))
 
-;; implementation of addition assuming that the computer only knows how to increment or decrement by the value of 1
+;; Implementation of addition -----
+;; assuming that the computer only knows how to increment or decrement by the value of 1
 ;; addition can be seen as moving apples from one plate (a) to the other (b) one by one
 
 
@@ -72,7 +74,7 @@
         ((= y 1) 2)
         (else (A (- x 1) (A x (- y 1))))))
 
-;; all ways (combinations) of making change for a defined amount of money when having coins 1, 5, 10, 25 and 50
+;; All ways (combinations) of making change for a defined amount of money when having coins 1, 5, 10, 25 and 50 -----
 (define (first-denomination kinds-of-coins)
   (cond ((= kinds-of-coins 5) 50)
         ((= kinds-of-coins 4) 25)
@@ -90,7 +92,7 @@
         (else (+ (cc amount (- kinds-of-coins 1))
                  (cc (- amount (first-denomination kinds-of-coins)) kinds-of-coins)))))
 
-;; fibonacci numbers
+;; Fibonacci numbers -----
 
 ; recursive
 (define (fibonacci n)
@@ -135,14 +137,14 @@
              (- counter 1))))
 
 
-;; pascals triangle aka Binomial Coefficients
+;; Pascals triangle aka Binomial Coefficients
 (define (pascal n k)
   (cond ((= k 0) 1)
         ((= k n) 1)
         (else (+ (pascal (- n 1) (- k 1)) (pascal (- n 1) k)))))
 
 
-; approximation to calculation of sin
+;; Approximation to calculation of Sin
 (define (cube x)
   (* x x x))
 
@@ -154,14 +156,15 @@
       angle
       (p (sine-approx (/ angle 3.0)))))
 
-; recursive process for calculating exponentiation 
+;; Exponentiation -----
+;; Recursive process for calculating exponents 
 (define (expt b n)
   (if (= n 0)
       1
       (* b (expt b (- n 1)))))
 
 
-; iterative process for calculating exponentiation
+;; iterative process for calculating exponentiation
 (define (expt2 b n)
   (expt-iter b n 1))
 
@@ -173,7 +176,7 @@
                  (* b product))))
 
 
-; fast exponentiation
+;; Fast exponentiation, recursive
 (define (square x)
   (* x x))
 (define (fast-expt b n)
@@ -182,7 +185,7 @@
         (else (* b (fast-expt b (- n 1))))))
 
 
-; fast exponentiation, iterative
+;; Fast exponentiation, iterative
 
 (define (fast-expt2 x n)
   (fast-expt2-iter x n 1))
