@@ -51,7 +51,6 @@
 ;; assuming that the computer only knows how to increment or decrement by the value of 1
 ;; addition can be seen as moving apples from one plate (a) to the other (b) one by one
 
-
 ; iterative process
 (define (plus-iter a b)
   (if (= a 0) 
@@ -102,7 +101,6 @@
                   (fibonacci (- n 2))))))
 
 ; iterative
-
 (define (fibo n)
   (fibo-iter 1 0 n))
 
@@ -113,7 +111,6 @@
 
 
 ; fibo related function, recursive
-
 (define (f n)
   (if (< n 3)
     n
@@ -122,7 +119,6 @@
        (* 3 (f (- n 3))))))
 
 ; fibo related function, iterative
-
 (define (fi n)
   (fi-iter 2 1 0 n))
 
@@ -186,7 +182,6 @@
 
 
 ;; Fast exponentiation, iterative
-
 (define (fast-expt2 x n)
   (fast-expt2-iter x n 1))
 
