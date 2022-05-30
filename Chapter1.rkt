@@ -193,7 +193,8 @@
         (else (fast-expt2-iter (square x)
                                (/ (- counter 1) 2)
                                (* a x)))))
-      
+
+;; Integer multiplication -----
 ;; Fast integer multiplication, recursive
 (define (double x)
   (* 2 x))
@@ -213,3 +214,31 @@
   (cond ((= n 0) y)
         ((even? n) (fast-mul-iter (halve n) y (double z)))
         (else (fast-mul-iter (- n 1) (+ y z) z))))
+
+
+;; Fast Fibonacci numbers calculation -----
+; the state transformation for Fibonacci number calculation is a generalisation of the following transformation
+; a <- bq + aq + ap
+; b <- bp + aq
+; where p=0 and q=1.
+; Applying the transformation twice (aka squaring) yields a transformation of the same shape with
+; p'=p^2 + q^2 and
+; q'=q^2 + 2pq
+; which can be used for constructing a fast iterative algorithm: 
+
+(define (fib n)
+  (fib-iter 1 0 0 1 n))
+
+(define (fib-iter a b p q count)
+  (cond ((= count 0) b)
+        ((even? count)
+         (fib-iter a
+                   b
+                   (+ (square p) (square q))
+                   (+ (square q) (* 2 q p))
+                   (/ count 2)))
+        (else (fib-iter (+ (* b q) (* a q) (* a p))
+                        (+ (* b p) (* a q))
+                        p
+                        q
+                        (- count 1)))))
