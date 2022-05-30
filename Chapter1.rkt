@@ -194,3 +194,22 @@
                                (/ (- counter 1) 2)
                                (* a x)))))
       
+;; Fast integer multiplication, recursive
+(define (double x)
+  (* 2 x))
+(define (halve x)
+  (/ x 2))
+
+(define (fast-mul n x)
+  (cond ((= n 0) 0)
+        ((even? n) (double (fast-mul (halve n) x)))
+        (else (+ x (fast-mul (- n 1) x)))))
+
+;; Fast integer multiplication, iterative
+(define (fast-mul-v2 n x)
+  (fast-mul-iter n 0 x))
+
+(define (fast-mul-iter n y z)
+  (cond ((= n 0) y)
+        ((even? n) (fast-mul-iter (halve n) y (double z)))
+        (else (fast-mul-iter (- n 1) (+ y z) z))))
