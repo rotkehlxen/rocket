@@ -245,6 +245,14 @@
 
 
 ;; Euclid's Algorithm for calculating the greatest common divisor
+
+; 1) a and b have a greatest common divisor g, that means a and b are multiples of g
+; 2) if we subtract b from a, that means we subtract a multiple of g, which means the resulting number will also be
+; a multiple of g
+; 3) we can subtract b as many times from a as we want, we always obtain a number which is a multiple of g
+; 4) we can divide a by b and the remainder will be a multiple of g (because that means subtracting b as often as
+; possible)
+; 5) we can also derive the greatest common divisor from the remainder of a/b and b :-) 
 (define (gcd a b)
   (if (= b 0)
       a
