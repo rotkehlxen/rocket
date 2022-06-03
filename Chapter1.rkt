@@ -257,3 +257,18 @@
   (if (= b 0)
       a
       (gcd b (remainder a b))))
+
+;; Primality
+; Find the smallest divisor of an integer n.
+; We first test whether we can divide by 2, and if not, we test if we can divide by 3 and so on.
+; However, we can stop the search early, if we do not find a divisor smaller than sqrt(n), because
+; if a number n is not prime, it has a divisor smaller or eqal to sqrt(n).
+(define (smallest-divisor n)
+  (find-divisor n 2))
+(define (find-divisor n test-divisor)
+  (cond ((> (square test-divisor) n) n)
+        ((?divides test-divisor n) test-divisor)
+        (else (find-divisor n (+ test-divisor 1)))))
+(define (?divides a b)
+  (= (remainder b a) 0))
+  
