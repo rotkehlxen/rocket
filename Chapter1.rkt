@@ -268,10 +268,16 @@
 (define (find-divisor n test-divisor)
   (cond ((> (square test-divisor) n) n)
         ((?divides test-divisor n) test-divisor)
-        (else (find-divisor n (+ test-divisor 1)))))
+        (else (find-divisor n (next-test-divisor test-divisor)))))
 (define (?divides a b)
   (= (remainder b a) 0))
 
+; instead of increasing the test-divisor by one, it is sufficient to test odd numbers after division by 2 has failed!
+(define (next-test-divisor n)
+  (if (= n 2)
+      3
+      (+ n 2)))
+  
 ; a number is prime, if the smallest-divisor is n itsself:
 (define (prime? n)
   (= (smallest-divisor n) n))
@@ -311,6 +317,6 @@
         (timed-prime-test min)
         (search-for-primes (+ min 1) max))))
 
-; 1009, 1013 and 1019 are the first 3 primes > 1000, runtime about 4
-; 10007, 10009, 10037 are the first 3 primes > 10k, runtime about 6
-; 100003, 100019, 100043 are the frist 3 primes > 100k, runtime about 17
+; 1009, 1013 and 1019 are the first 3 primes > 1000, runtime about 4 (3 with next-test-divisor function)
+; 10007, 10009, 10037 are the first 3 primes > 10k, runtime about 6 (4 with next-test-divisor function)
+; 100003, 100019, 100043 are the frist 3 primes > 100k, runtime about 17 (12 with next-test-divisor function)
