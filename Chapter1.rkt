@@ -276,8 +276,6 @@
 (define (prime? n)
   (= (smallest-divisor n) n))
 
-(prime? 1001)
-
 ;; Fast x^n % m calculation
 ; if n is even, we can still use successive squaring to speed up exponentiation because of the following relation:
 ;   x^n % m
@@ -292,3 +290,27 @@
         ((even? n) (remainder (square (expmod x (/ n 2) m)) m))
         (else (remainder (* x (expmod x (- n 1) m)) m))))
 
+;; Timed Search for Primes
+(define (timed-prime-test n)
+  (newline)
+  (display n)
+  (start-prime-test n (runtime)))
+
+(define (start-prime-test n start-time)
+  (if (prime? n)
+      (report-prime (- (runtime) start-time))))
+
+(define (report-prime elapsed-time)
+  (display " *** ")
+  (display elapsed-time))
+
+(define (search-for-primes min max)
+  (if (= min max)
+      '()
+      (begin
+        (timed-prime-test min)
+        (search-for-primes (+ min 1) max))))
+
+; 1009, 1013 and 1019 are the first 3 primes > 1000, runtime about 4
+; 10007, 10009, 10037 are the first 3 primes > 10k, runtime about 6
+; 100003, 100019, 100043 are the frist 3 primes > 100k, runtime about 17
