@@ -271,4 +271,18 @@
         (else (find-divisor n (+ test-divisor 1)))))
 (define (?divides a b)
   (= (remainder b a) 0))
-  
+
+;; Fast x^n % m calculation
+; if n is even, we can still use successive squaring to speed up exponentiation because of the following relation:
+;   x^n % m
+; = (expmod x n m)
+; = (x^(n/2) * x^(n/2)) % m
+; = [(x^(n/2) % m) * (x^(n/2) % m)] % m
+; = (x^(n/2) % m)^2 % m
+; = (expmod x n/2 m)^2 % m
+
+(define (expmod x n m)
+  (cond ((= n 0) 1)
+        ((even? n) (remainder (square (expmod x (/ n 2) m)) m))
+        (else (remainder (* x (expmod x (- n 1) m)) m))))
+
