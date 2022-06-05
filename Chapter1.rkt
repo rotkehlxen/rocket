@@ -296,6 +296,24 @@
         ((even? n) (remainder (square (expmod x (/ n 2) m)) m))
         (else (remainder (* x (expmod x (- n 1) m)) m))))
 
+;; Fermat Test for primality
+; check that a^n % n = a for every random number (integer) < n 
+(define (fermat-test n)
+  (define (try-it a)
+    (= (expmod a n n) a))
+  (try-it (+ 1 (random (- n 1)))))
+
+;; Fast test for primality using Fermat method
+(define (fast-prime? n times)
+  (cond ((= times 0) true)
+        ((fermat-test n) (fast-prime? n (- times 1)))
+        (else false)))
+
+; Some numbers fool the Fermat-test: the Carmichael numbers! for these numbers the condition
+; a^n % n = a for every random integer < n holds true although they are not prime numbers!
+; e.g. 561 (divisible by 3) , 1105 (divisible by 5) ...
+
+
 ;; Timed Search for Primes
 (define (timed-prime-test n)
   (newline)
