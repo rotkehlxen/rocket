@@ -272,6 +272,12 @@
 (define (?divides a b)
   (= (remainder b a) 0))
 
+; a number is prime, if the smallest-divisor is n itsself:
+(define (prime? n)
+  (= (smallest-divisor n) n))
+
+(prime? 1001)
+
 ;; Fast x^n % m calculation
 ; if n is even, we can still use successive squaring to speed up exponentiation because of the following relation:
 ;   x^n % m
