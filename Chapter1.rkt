@@ -368,3 +368,33 @@
   (sum pi-term a pi-next b))
 
 ; (* 8 (pi-sum 1 1000))
+
+; use the sum procedure to approximate the integral of a function
+(define (integral f a b dx)
+  (define (add-dx x)
+    (+ x dx))
+  (* (sum f (+ a (/ dx 2)) add-dx b)
+     dx))
+
+; (integral cube 0 1 0.01) gives 0.24998750000000042, true value would be 1/4
+
+;; Simpson's rule
+(define (simpson-weight i n)
+  (cond ((= i 0) 1)
+        ((= i n) 1)
+        ((even? i) 2)
+        (else 4)))
+
+(define (simpson f a b n)
+  (let ((h (/ (- b a) n)))
+  (* (/ h 3.0)
+     (simpson-go f a n 0 h))))
+
+(define (simpson-go f a n counter h)
+  (if (> counter n)
+      0
+      (+ (* (simpson-weight counter n) (f a))
+         (simpson-go f (+ a h) n (inc counter) h))))
+
+(simpson cube 0 1 100)
+        
