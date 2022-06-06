@@ -378,23 +378,24 @@
 
 ; (integral cube 0 1 0.01) gives 0.24998750000000042, true value would be 1/4
 
-;; Simpson's rule
-(define (simpson-weight i n)
-  (cond ((= i 0) 1)
-        ((= i n) 1)
-        ((even? i) 2)
-        (else 4)))
+;; Simpson's rule for approximation of integrals -----
 
 (define (simpson f a b n)
+  ; step size in integration h
   (let ((h (/ (- b a) n)))
-  (* (/ h 3.0)
-     (simpson-go f a n 0 h))))
-
-(define (simpson-go f a n counter h)
-  (if (> counter n)
-      0
-      (+ (* (simpson-weight counter n) (f a))
-         (simpson-go f (+ a h) n (inc counter) h))))
-
-(simpson cube 0 1 100)
+    ; weight factor in addition of terms
+    (define (simpson-weight i n)
+      (cond ((= i 0) 1)
+            ((= i n) 1)
+            ((even? i) 2)
+            (else 4)))
+    ; step-wise addition, recursive
+    (define (simpson-go f a counter)
+      (if (> counter n)
+          0
+          (+ (* (simpson-weight counter n) (f a))
+             (simpson-go f (+ a h) (inc counter)))))
+    ; return the sum scaled by h/3 
+    (* (/ h 3.0)
+       (simpson-go f a 0))))
         
