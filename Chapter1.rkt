@@ -244,7 +244,7 @@
                         (- count 1)))))
 
 
-;; Euclid's Algorithm for calculating the greatest common divisor
+;; Euclid's Algorithm for calculating the greatest common divisor -----
 
 ; 1) a and b have a greatest common divisor g, that means a and b are multiples of g
 ; 2) if we subtract b from a, that means we subtract a multiple of g, which means the resulting number will also be
@@ -258,7 +258,7 @@
       a
       (gcd b (remainder a b))))
 
-;; Primality
+;; Primality -----
 ; Find the smallest divisor of an integer n.
 ; We first test whether we can divide by 2, and if not, we test if we can divide by 3 and so on.
 ; However, we can stop the search early, if we do not find a divisor smaller than sqrt(n), because
@@ -314,7 +314,7 @@
 ; e.g. 561 (divisible by 3) , 1105 (divisible by 5) ...
 
 
-;; Timed Search for Primes
+;; Timed Search for Primes -----
 (define (timed-prime-test n)
   (newline)
   (display n)
@@ -338,3 +338,33 @@
 ; 1009, 1013 and 1019 are the first 3 primes > 1000, runtime about 4 (3 with next-test-divisor function)
 ; 10007, 10009, 10037 are the first 3 primes > 10k, runtime about 6 (4 with next-test-divisor function)
 ; 100003, 100019, 100043 are the frist 3 primes > 100k, runtime about 17 (12 with next-test-divisor function)
+
+;; Higher-order procedures -----
+; Summation (Sigma)
+; Sum over "term" (= a procedure) over the values a to b, where "next" is a procedure that determines how to set the 
+; next value between a and b 
+(define (sum term a next b)
+  (if (> a b)
+      0
+      (+ (term a)
+         (sum term (next a) next b))))
+
+; use the sum procedure to calculate the sum of cubes
+(define (sum-cubes a b)
+  (sum cube a inc b))
+
+; use the sum procedure to calculate sum of numbers from a to b (using an identity term)
+(define (identity x) x)
+(define (sum-integers a b)
+  (sum identity a inc b))
+
+; Approximation to pi
+; this sum converges to pi/8 very slowly
+(define (pi-sum a b)
+  (define (pi-term x)
+    (/ 1.0 (* x (+ x 2))))
+  (define (pi-next x)
+    (+ x 4))
+  (sum pi-term a pi-next b))
+
+; (* 8 (pi-sum 1 1000))
