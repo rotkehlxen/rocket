@@ -398,4 +398,13 @@
     ; return the sum scaled by h/3 
     (* (/ h 3.0)
        (simpson-go f a 0))))
-        
+
+; Iterative version of the sum procedure -----
+(define (sum2 term a next b)
+  (define (iter a result)
+    (if (> a b)
+        result
+        (iter (next a) (+ result (term a)))))
+  (iter a 0))
+
+; (sum2 square 0 inc 3) equals 14
