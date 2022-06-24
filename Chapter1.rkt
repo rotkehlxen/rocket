@@ -408,3 +408,35 @@
   (iter a 0))
 
 ; (sum2 square 0 inc 3) equals 14
+
+;; Product procedures -----
+; Recursive
+(define (product term a next b)
+  (if (> a b)
+      1
+      (* (term a)
+         (product term (next a) next b))))
+; Iterative
+(define (product2 term a next b)
+  (define (iter a result)
+    (if (> a b)
+        result
+        (iter (next a) (* result (term a)))))
+  (iter a 1))
+
+; definition of factorial using product
+(define (factorial-p n)
+  (product2 identity 1 inc n))
+
+; approximation to pi using product aka Wallis product
+(define (pi-approx n)
+  (define (term x)
+    (+ 1
+       (/ 1
+          (- (* 4 (square x))
+             1))))
+  (* 2.0 (product2 term 1 inc n)))
+
+
+; (pi-approx 1000)
+   
