@@ -439,4 +439,24 @@
 
 
 ; (pi-approx 1000)
-   
+
+;; Accumulate: for defined combinations of terms (product, sum etc.), recursive -----
+(define (accumulate combiner null-value term a next b)
+  (if (> a b)
+      null-value
+      (combiner (term a)
+                (accumulate combiner null-value term (next a) next b))))
+
+(define (sum3 term a next b)
+  (accumulate + 0 term a next b))
+
+(define (product3 term a next b)
+  (accumulate * 1 term a next b))
+
+;;  Accumulate: for defined combinations of terms (product, sum etc.), iterative -----
+(define (accumulate2 combiner null-value term a next b)
+  (define (iter a result)
+    (if (> a b)
+        result
+        (iter (next a) (combiner result (term a)))))
+  (iter a null-value))
