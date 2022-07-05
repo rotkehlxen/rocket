@@ -461,7 +461,7 @@
         (iter (next a) (combiner result (term a)))))
   (iter a null-value))
 
-;; Filtered accumulate (only combine terms if the values between a and b fulfill a certain condition
+;; Filtered accumulate (only combine terms if the values between a and b fulfill a certain condition)
 (define (filtered-accumulate combiner null-value term a next b filter)
   (define (iter a result)
     (cond ((> a b) result)
