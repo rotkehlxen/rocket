@@ -460,3 +460,22 @@
         result
         (iter (next a) (combiner result (term a)))))
   (iter a null-value))
+
+;; Filtered accumulate (only combine terms if the values between a and b fulfill a certain condition
+(define (filtered-accumulate combiner null-value term a next b filter)
+  (define (iter a result)
+    (cond ((> a b) result)
+          ((filter a) (iter (next a) (combiner result (term a))))
+          (else (iter (next a) result))))
+  (iter a null-value))
+
+; sum of squares of prime numbers in interval a to b
+(define (sum-of-squares-prime a b)
+  (filtered-accumulate + 0 square a inc b prime?))
+
+; product of all positive integers <n that are relatively prime to n
+(define (product-rel-prime n)
+  (define (rel-prime? i)
+    (=(gcd i n) 1))
+  (filtered-accumulate * 1 identity 1 inc (- n 1) rel-prime?))
+    
