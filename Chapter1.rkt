@@ -478,4 +478,19 @@
   (define (rel-prime? i)
     (=(gcd i n) 1))
   (filtered-accumulate * 1 identity 1 inc (- n 1) rel-prime?))
-    
+
+;; LET is syntactic sugar for an expression involving a lambda function
+; ft = xa^2 + yb + ab with a = 1 + xy and b = 1 - y
+(define (ft x y)
+  ((lambda (a b) (+ (* x (square a))
+                    (* y b)
+                    (* a b))) (+ 1 (* x y)) (- y 1)))
+
+(define (ft-twin x y)
+  (let ((a (+ 1 (* x y)))
+        (b (- y 1)))
+    (+ (* x (square a))
+       (* y b)
+       (* a b))))
+
+(= (ft 1 1) (ft-twin 1 1))
