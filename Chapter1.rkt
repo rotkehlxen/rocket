@@ -479,7 +479,7 @@
     (=(gcd i n) 1))
   (filtered-accumulate * 1 identity 1 inc (- n 1) rel-prime?))
 
-;; LET is syntactic sugar for an expression involving a lambda function
+;; LET is syntactic sugar for an expression involving a lambda function -----
 ; ft = xa^2 + yb + ab with a = 1 + xy and b = 1 - y
 (define (ft x y)
   ((lambda (a b) (+ (* x (square a))
@@ -493,4 +493,33 @@
        (* y b)
        (* a b))))
 
-(= (ft 1 1) (ft-twin 1 1))
+; > #t
+;(= (ft 1 1) (ft-twin 1 1))
+
+;; Roots of equations with the half-interval method -----
+(define (search f neg-point pos-point)
+  (let ((midpoint (average neg-point pos-point)))
+    (if (close-enough? neg-point pos-point)
+        midpoint
+        (let ((test-value (f midpoint)))
+          (cond ((positive? test-value)
+                 (search f neg-point midpoint))
+                ((negative? test-value)
+                 (search f midpoint pos-point))
+                (else midpoint))))))
+
+
+(define (close-enough? x y)
+  (< (abs (- x y)) 0.001))
+
+(define (half-interval-method f a b)
+  (let ((a-value (f a))
+        (b-value (f b)))
+    (cond ((and (negative? a-value) (positive? b-value))
+           (search f a b))
+          ((and (negative? b-value) (positive? a-value))
+           (search f b a))
+          (else
+           (error "Values are not of opposite sign, so there is no root in this interval!")))))
+
+;(half-interval-method sin 2.0 4.0) evaluates to 3.14111328125
