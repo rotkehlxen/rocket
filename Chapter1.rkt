@@ -602,3 +602,44 @@
   (/ (go 1) x))
 
 ; (tan-cf 1.0 20) evaluates to about 1.55740  
+
+;; Newtons Method -----
+; for finding roots of non-linear equations
+
+; procedure that returns the derivative function
+(define (deriv g)
+  (let ((dx 0.00001))
+    (lambda (x) (/ (- (g (+ x dx))
+                      (g x))
+                   dx))))
+
+; procedure for the newton transformation, so given a function g(x),
+; we return a function f(x) = x - g(x)/g'(x)
+
+(define (newton-transform g)
+  (lambda (x) (- x
+                 (/ (g x)
+                    ((deriv g) x)))))
+
+; the root of function g(x) corresponds to the fixed point of the newton-transformation:
+
+(define (newton-method g guess)
+  (fix-point (newton-transform g) guess))
+
+; create a cubic function x^3 + a * x^2 + b * x + c from a,b and c
+(define (cubic a b c)
+  (lambda (x) (+ (cube x)
+                 (* a (square x))
+                 (* b x)
+                 c)))
+
+; (newton-method (cubic -1 0 0) 0.1)  ; finds root 0
+; (newton-method (cubic -1 0 0) 1.2)  ; finds root 1
+
+; double procedure (a procedure that applies the given procedure twice)
+(define (doubles g)
+  (lambda (x) (g (g x))))
+
+(((doubles (doubles (doubles doubles))) inc) 5) ; 5 + ((2^2)^2)^2 = 5 + 256 = 261
+(((doubles (doubles doubles)) inc) 5) ; 5 + (2^2)^2 = 21
+(((doubles doubles) inc) 5) ; 5 + 2^2 = 9
