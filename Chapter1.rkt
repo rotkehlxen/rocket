@@ -546,8 +546,8 @@
 ; of the use of average damping !! (instead of finding the fix point of f(x), find the fixpoint
 ; of the average: (f(x) + x)/2
 
-;; Infinite Continued Fraction -----
-; recursive
+;; Infinite Continued Fractions -----
+; recursive version
 (define (cont-frac n d k)
   (define (go i)
     (if (= i k)
@@ -558,10 +558,10 @@
   (go 1))
 
 ; for k=12 we can approximate the golden ratio with an accuracy of 4 decimal places
-;(/ 1
-;   (cont-frac (lambda (i) 1.0)
-;              (lambda (i) 1.0)
-;              12))
+(define golden (/ 1
+                  (cont-frac (lambda (i) 1.0)
+                             (lambda (i) 1.0)
+                             12)))
 
 ; iterative version
 (define (cont-frac-v2 n d k)
@@ -579,7 +579,7 @@
 ;                 12))
 ; provides the same result as the recursive version
 
-; approximatation to Euler e
+; approximatation to Eulers number e
 (define (euler-d i)
   (if (= (remainder i 3) 2)
       (* (+ (floor (/ i 3)) 1) 2)
