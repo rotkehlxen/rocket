@@ -558,10 +558,10 @@
   (go 1))
 
 ; for k=12 we can approximate the golden ratio with an accuracy of 4 decimal places
-(/ 1
-   (cont-frac (lambda (i) 1.0)
-              (lambda (i) 1.0)
-              12))
+;(/ 1
+;   (cont-frac (lambda (i) 1.0)
+;              (lambda (i) 1.0)
+;              12))
 
 ; iterative version
 (define (cont-frac-v2 n d k)
@@ -578,3 +578,27 @@
 ;                 (lambda (i) 1.0)
 ;                 12))
 ; provides the same result as the recursive version
+
+; approximatation to Euler e
+(define (euler-d i)
+  (if (= (remainder i 3) 2)
+      (* (+ (floor (/ i 3)) 1) 2)
+      1))
+
+(+ 2
+   (cont-frac (lambda (i) 1.0)
+              euler-d
+              20))
+
+; Approximation to tan x
+(define (tan-cf x k)
+  (define (go i)
+    (let ((di  (- (* 2 i) 1)))
+    (if (= i k)
+        (/ (square x) di)
+        (/ (square x)
+           (- di (go (inc i)))))))
+       
+  (/ (go 1) x))
+
+(tan-cf 1.0 20)  
