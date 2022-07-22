@@ -544,4 +544,21 @@
 ; (fix-point (lambda (x) (/ (log 1000) (log x))) 2) takes 34 iterations
 ; (fix-point (lambda (x) (average x  (/ (log 1000) (log x)))) 2) takes 9 iterations because
 ; of the use of average damping !! (instead of finding the fix point of f(x), find the fixpoint
-; of the average: (f(x) + x)/2 
+; of the average: (f(x) + x)/2
+
+;; Infinite Continued Fraction -----
+; recursive
+(define (cont-frac n d k)
+  (define (go i k)
+    (if (= i k)
+        (/ (n k) (d k))
+        (/ (n i)
+           (+ (d i)
+              (go (inc i) k)))))
+  (go 1 k))
+
+; for k=12 we can approximate the golden ratio with an accuracy of 4 decimal places
+(/ 1
+   (cont-frac (lambda (i) 1.0)
+              (lambda (i) 1.0)
+              12))
