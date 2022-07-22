@@ -585,10 +585,10 @@
       (* (+ (floor (/ i 3)) 1) 2)
       1))
 
-(+ 2
-   (cont-frac (lambda (i) 1.0)
-              euler-d
-              20))
+(define e (+ 2
+             (cont-frac (lambda (i) 1.0)
+                        euler-d
+                        20)))
 
 ; Approximation to tan x
 (define (tan-cf x k)
@@ -601,4 +601,4 @@
        
   (/ (go 1) x))
 
-(tan-cf 1.0 20)  
+; (tan-cf 1.0 20) evaluates to about 1.55740  
