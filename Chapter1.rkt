@@ -549,16 +549,32 @@
 ;; Infinite Continued Fraction -----
 ; recursive
 (define (cont-frac n d k)
-  (define (go i k)
+  (define (go i)
     (if (= i k)
         (/ (n k) (d k))
         (/ (n i)
            (+ (d i)
-              (go (inc i) k)))))
-  (go 1 k))
+              (go (inc i))))))
+  (go 1))
 
 ; for k=12 we can approximate the golden ratio with an accuracy of 4 decimal places
 (/ 1
    (cont-frac (lambda (i) 1.0)
               (lambda (i) 1.0)
               12))
+
+; iterative version
+(define (cont-frac-v2 n d k)
+  (define (go i prev)
+    (if (= i 0)
+        prev
+        (go (dec i) (/ (n i)
+                       (+ (d i)
+                          prev)))))
+  (go k 0))
+
+;(/ 1
+;   (cont-frac-v2 (lambda (i) 1.0)
+;                 (lambda (i) 1.0)
+;                 12))
+; provides the same result as the recursive version
