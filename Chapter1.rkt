@@ -523,3 +523,25 @@
            (error "Values are not of opposite sign, so there is no root in this interval!")))))
 
 ;(half-interval-method sin 2.0 4.0) evaluates to 3.14111328125
+
+;; Fixed Points -----
+(define tolerance 0.00001)
+(define (fix-point f first-guess)
+  (define (close-enough? v1 v2)
+    (< (abs (- v1 v2)) tolerance))
+  (define (try guess)
+    (let ((next (f guess)))
+      (display next)
+      (newline)
+      (if (close-enough? guess next)
+          next
+          (try next))))
+  (try first-guess))
+
+; the golden ratio is a fix point of function f(x) = 1 + 1/x
+; (fix-point (lambda (x) (+ 1 (/ 1 x))) 1.0) evaluates to about 1.618
+
+; (fix-point (lambda (x) (/ (log 1000) (log x))) 2) takes 34 iterations
+; (fix-point (lambda (x) (average x  (/ (log 1000) (log x)))) 2) takes 9 iterations because
+; of the use of average damping !! (instead of finding the fix point of f(x), find the fixpoint
+; of the average: (f(x) + x)/2 
