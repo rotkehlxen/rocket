@@ -654,4 +654,4 @@
       f
       (compose f (repeated f (dec n)))))
 
-; ((repeated square 2) 5)  ; 625 = (5^2)^2
+; ((repeated square 2) 5)  ; 625 = (5^2)^2 
