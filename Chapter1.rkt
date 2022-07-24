@@ -667,3 +667,17 @@
 ; n-fold smoothing
 (define (n-fold-smooth f n)
   ((repeated smooth n) f))
+
+; Average damping for finding nth roots -----
+(define (average-damp f)
+  (lambda (x) (average (f x) x)))
+
+; for the 4th root we need 2 damps, for the 8th root we need 3 damps, for the 16th root 4 damps etc.
+(define (root x n)
+  (define number-of-damps (floor (log n 2)))
+  (define (test-function y)
+    (/ x
+       (expt y (- n 1))))
+  (fix-point ((repeated average-damp number-of-damps) test-function) 1.0))
+
+; (root 16 4) ; approximately 2
