@@ -654,4 +654,16 @@
       f
       (compose f (repeated f (dec n)))))
 
-; ((repeated square 2) 5)  ; 625 = (5^2)^2 
+; ((repeated square 2) 5)  ; 625 = (5^2)^2
+
+; smooting a function
+(define (smooth f)
+  (define dx 0.01)
+  (define (average a b c)
+    (/ (+ a b c) 3))
+  (lambda (x) (average (f x)
+                       (f (- x dx))
+                       (f (+ x dx)))))
+; n-fold smoothing
+(define (n-fold-smooth f n)
+  ((repeated smooth n) f))
