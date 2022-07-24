@@ -650,10 +650,8 @@
 
 ; create function, for n repeated function calls
 (define (repeated f n)
-  (define (go g counter)
-    (if (= counter 1)
-        g
-        (compose f (go f (dec counter)))))
-  (go f n))
+  (if (= n 1)
+      f
+      (compose f (repeated f (dec n)))))
 
 ; ((repeated square 2) 5)  ; 625 = (5^2)^2
