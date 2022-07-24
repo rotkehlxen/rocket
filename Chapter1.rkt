@@ -640,6 +640,11 @@
 (define (doubles g)
   (lambda (x) (g (g x))))
 
-(((doubles (doubles (doubles doubles))) inc) 5) ; 5 + ((2^2)^2)^2 = 5 + 256 = 261
-(((doubles (doubles doubles)) inc) 5) ; 5 + (2^2)^2 = 21
-(((doubles doubles) inc) 5) ; 5 + 2^2 = 9
+; (((doubles (doubles (doubles doubles))) inc) 5) ; 5 + ((2^2)^2)^2 = 5 + 256 = 261
+; (((doubles (doubles doubles)) inc) 5) ; 5 + (2^2)^2 = 21
+; (((doubles doubles) inc) 5) ; 5 + 2^2 = 9
+
+; compose function, derive f(g(x)) from f and g
+(define (compose f g)
+  (lambda (x) (f (g x))))
+
