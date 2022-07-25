@@ -681,3 +681,32 @@
   (fix-point ((repeated average-damp number-of-damps) test-function) 1.0))
 
 ; (root 16 4) ; approximately 2
+
+; Iterative-improve as general concept/abstraction -----
+
+(define (iterative-improve guess-good-enough? improve-guess)
+  (define (go guess)
+    (if (guess-good-enough? guess)
+        guess
+        (go (improve-guess guess))))
+  (go 1.0))
+
+(define (new-sqrt x)
+  (define (good-enough? guess x)
+    (< (abs (- (square guess) x)) 0.001))
+  (define (improve-guess guess x)
+    (average guess (/ x guess)))
+  (iterative-improve (lambda (guess) (good-enough? guess x))
+                     (lambda (guess) (improve-guess guess x))))
+
+; (new-sqrt 16) ; evaluates to about 4
+
+(define (new-fix-point f guess)
+  (define (close-enough? v1 v2)
+    (< (abs (- v1 v2)) 0.00001))
+  (define (improve-guess f guess)
+    (f guess))
+  (iterative-improve (lambda (guess) (close-enough? (f guess) guess))
+                     (lambda (guess) (improve-guess f guess))))
+
+; (new-fix-point (lambda (x) (+ 1 (/ 1 x))) 1.0) ; evaluates to about 1.618, just like the old fix-point method
