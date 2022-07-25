@@ -701,7 +701,7 @@
 
 ; (new-sqrt 16) ; evaluates to about 4
 
-(define (new-fix-point f guess)
+(define (new-fix-point f)
   (define (close-enough? v1 v2)
     (< (abs (- v1 v2)) 0.00001))
   (define (improve-guess f guess)
@@ -709,4 +709,4 @@
   (iterative-improve (lambda (guess) (close-enough? (f guess) guess))
                      (lambda (guess) (improve-guess f guess))))
 
-; (new-fix-point (lambda (x) (+ 1 (/ 1 x))) 1.0) ; evaluates to about 1.618, just like the old fix-point method
+(new-fix-point (lambda (x) (+ 1 (/ 1 x)))) ; evaluates to about 1.618, just like the old fix-point method
