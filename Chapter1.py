@@ -2,15 +2,12 @@
 
 from typing import Callable
 
-
+# as python has no tail-recursion, we use a while loop here
 def iterative_improve(guess_good_enough: Callable, improve_guess: Callable) -> float:
-    def go(guess: float) -> float:
-        if guess_good_enough(guess):
-            return guess
-        else:
-            return go(improve_guess(guess))
-
-    return go(1.0)
+    guess = 1.0
+    while not guess_good_enough(guess):
+        guess = improve_guess(guess)
+    return guess
 
 
 # approximation to sqrt
