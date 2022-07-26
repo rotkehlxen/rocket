@@ -60,4 +60,40 @@
 ; (print-rat (mul-rat one-half one-third)) ; 1/6
 
 
+;; Points and Line segments in a plane
 
+(define (make-point x y)
+  (cons x y))
+
+(define (x-point point)
+  (car point))
+
+(define (y-point point)
+  (cdr point))
+
+(define (print-point point)
+  (newline)
+  (display "(")
+  (display (x-point point))
+  (display ",")
+  (display (y-point point))
+  (display ")"))
+
+(define (make-segment start end)
+  (cons start end))
+
+(define (start-segment segment)
+  (car segment))
+
+(define (end-segment segment)
+  (cdr segment))
+
+(define (mid-point segment)
+  (make-point (/ (+ (x-point (start-segment segment))
+                    (x-point (end-segment segment)))
+                 2.0)
+              (/ (+ (y-point (start-segment segment))
+                    (y-point (end-segment segment)))
+                 2.0)))
+
+; (print-point (mid-point (make-segment (make-point 1 2) (make-point 6 4))))  ; (3.5,3.0)
