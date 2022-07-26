@@ -7,15 +7,13 @@
       a
       (gcd b (remainder a b))))
 
-; constructor for a rational number
+; constructor for a rational number:
+; reduce to lowest terms and if the rational number is negative, keep the minus sign in the numerator
 (define (make-rat n d)
   (let ((g (abs (gcd n d))))
     (if (> (/ n d) 0)
         (cons (abs (/ n g)) (abs (/ d g)))
-        (cons (- (abs (/ n g))) (abs (/ d g))))))
-
-
-  ; cons = construct, a pair of two values
+        (cons (- (abs (/ n g))) (abs (/ d g)))))) ; cons = construct, a pair of two values
 
 ; numerator
 (define (numer x) ; car = contents of address part of register
