@@ -60,7 +60,7 @@
 ; (print-rat (mul-rat one-half one-third)) ; 1/6
 
 
-;; Points and Line segments in a plane
+;; Points and Line segments in a plane -----
 
 (define (make-point x y)
   (cons x y))
@@ -97,3 +97,59 @@
                  2.0)))
 
 ; (print-point (mid-point (make-segment (make-point 1 2) (make-point 6 4))))  ; (3.5,3.0)
+
+; Rectangle, constructed from 3 points -----
+; (assuming that the two segments formed by connecting these 3 points enclose a right angle)
+; ll: lower left
+; lr: lower right
+; ur: upper right corner
+
+(define (make-rect ll lr ur)
+  (cons (cons ll lr) ur))
+
+(define (rect-ll rectangle)
+  (car (car rectangle)))
+
+(define (rect-lr rectangle)
+  (cdr (car rectangle)))
+
+(define (rect-ur rectangle)
+  (cdr rectangle))
+
+; (print-point (rect-lr (make-rect (make-point 1 1)
+;                       (make-point 2 1)
+;                       (make-point 2 3))))  ; (2,1)
+(define (square x)
+  (* x x))
+
+(define (rect-faces r)
+  (let ((llx (x-point (rect-ll r)))
+        (lly (y-point (rect-ll r)))
+        (lrx (x-point (rect-lr r)))
+        (lry (y-point (rect-lr r)))
+        (urx (x-point (rect-ur r)))
+        (ury (y-point (rect-ur r))))
+    (cons (sqrt (+ (square (- lrx llx))
+                   (square (- lry lly))))
+          (sqrt (+ (square (- urx lrx))
+                   (square (- ury lry)))))))
+
+(define r (make-rect (make-point 1 1) (make-point 2 1) (make-point 2 3)))
+; (rect-faces r)  ; returns (1 . 2)
+; if we have the abstraction layer "faces", it does not matter how the square is implemented, we can always derive
+; perimeter and area from the faces
+
+(define (perimeter r)
+  (let* ((faces (rect-faces r))
+         (a (car faces))
+         (b (cdr faces)))
+    (* (+ a b) 2)))
+
+(define (area r)
+  (let* ((faces (rect-faces r))
+         (a (car faces))
+         (b (cdr faces)))
+    (* a b)))
+
+; (area r) ; 2
+; (perimeter r) ; 6
