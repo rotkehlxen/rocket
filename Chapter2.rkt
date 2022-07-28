@@ -164,3 +164,26 @@
 
 (define (cdr2 z)
   (z (lambda (p q) q)))
+
+;; Implementation of cons, by representing it as the product 2^a * 3^b -----
+(define (cons3 x y)
+  (* (expt 2 x)
+     (expt 3 y)))
+
+; check how often we can evenly divide by 2 to find a
+(define (car3 pair)
+  (define (go counter p)
+    (if (not (= (remainder p 2) 0))
+        counter
+        (go (inc counter) (/ p 2))))
+  (go 0 pair))
+
+; check how often we can evenly divide by 3 to find b
+(define (cdr3 pair)
+  (define (go counter p)
+    (if (not (= (remainder p 3) 0))
+        counter
+        (go (inc counter) (/ p 3))))
+  (go 0 pair))
+
+; (cdr3 (cons3 0 10)) ; 10
