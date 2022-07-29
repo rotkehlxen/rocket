@@ -187,3 +187,29 @@
   (go 0 pair))
 
 ; (cdr3 (cons3 0 10)) ; 10
+
+;; Church numerals -----
+; 0 : apply f to x zero times (return x itself)
+; 1 : apply f to z once
+; 2 : apply f to z twice ...
+
+(define zero (lambda (f) (lambda (x) x)))
+(define (add-1 n)
+  (lambda (f) (lambda (x) (f ((n f) x)))))
+
+; ((zero square) 3)                    ; 3
+; (((add-1 zero) square) 3)            ; 3^2
+; (((add-1 (add-1 zero)) square) 3)    ; (3^2)^2
+
+(define one (lambda (f) (lambda (x) (f x))))
+(define two (lambda (f) (lambda (x) (f (f x)))))
+
+; ((one square) 3)  ; 3^2
+; ((two square) 3)  ; (3^2)^2
+
+(define (add-church a b)
+  (lambda (f)
+    (lambda (x) ((b f) ((a f) x)))))
+
+; (((add-church one two) square) 3)  ; ((3^2)^2)^2 = 6561
+; (((add-church two one) square) 3)  ; ((3^2)^2)^2 = 6561
