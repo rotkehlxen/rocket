@@ -300,8 +300,23 @@
                                (max (* lx ly)
                                     (* ux uy)))))))
 
-(define x (make-interval 1 2))
-(define y (make-interval -1 3))
-(mul-interval-v2 x y)
-                                                                             
+; (define x (make-interval 1 2))
+; (define y (make-interval -1 3))
+; (mul-interval-v2 x y)
+
+; Represent an interval as center and percent uncertainty/tolerance
+(define (make-center-percent c perc)
+  (let ((width (/ (* c perc) 100)))
+    (make-interval (- c width) (+ c width))))
+
+(define (center x)
+  (/ (+ (lower-bound x) (upper-bound x)) 2))
+
+(define (perc x)
+  (let ((width (/ (- (upper-bound x)
+                     (lower-bound x))
+                  2)))
+    (* (/ width (center x)) 100)))
   
+; (perc (make-center-percent 20 5))   ; 5
+; (center (make-center-percent 20 5)) ; 20
