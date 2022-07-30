@@ -251,6 +251,18 @@
                 (make-interval (- (upper-bound y))
                                (- (lower-bound y)))))
 
+; meaning of division not clear when y spans zero, also, when the upper or lower bound
+; is exactly zero, we get a "division by zero" error
+
+(define (div-interval-v2 x y)
+  (let ((l (lower-bound y))
+        (u (upper-bound y)))
+    (if (and (<= l 0) (>= u 0))
+        (error "Cannot perform division because interval y spans zero")
+        (make-interval (/ 1.0 u)
+                       (/ 1.0 l)))))
+
 ; (define x (make-interval 1 2))
-; (define y (make-interval 3 4))
-; (sub-interval x y)
+; (define y (make-interval -2 1))
+; (div-interval-v2 x y)
+
