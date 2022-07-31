@@ -320,3 +320,56 @@
   
 ; (perc (make-center-percent 20 5))   ; 5
 ; (center (make-center-percent 20 5)) ; 20
+
+; Assuming that the tolerances of intervals are small, the tolerance of the product of two intervals
+; is approximately the sum of the tolerances of the two intervals
+; e.g. ux = cx(1+tolx) and uy = (cy(1+toly), then the upper bound of x*y is
+; cx (1+tolx) cy (1+toly) =
+; cx cy (1 + tolx + toly + tolx * toly)
+; ~ cx cy (1 + [tolx + toly])
+; because tolx * toly >> 0 if tolx and toly are small
+
+; Parallel resistors -----
+(define (par1 r1 r2)
+  (div-interval (mul-interval r1 r2)
+                (add-interval r1 r2)))
+
+(define (par2 r1 r2)
+  (let ((one (make-interval 1 1)))
+    (div-interval one
+                  (add-interval (div-interval one r1)
+
+                                (div-interval one r2)))))
+
+; par1 and par2 are equivalent expressions, but return different results 
+
+; (define r1 (make-interval 1 1.1))
+; (define r2 (make-interval 2 2.1))
+
+; (par1 r1 r2)
+; (par2 r1 r2)
+
+; (define r1 (make-interval 1 1))
+; (define r2 (make-interval 2 2.5))
+
+; Most notworthy: a/a = 1 is not true for intervals, because we do not know whether measured values
+; with the same interval are actually exactly the same values
+
+; (div-interval r2 r2) ; (0.8, 1.25)
+
+; Lists -----
+; obtain the nth item in the list (starting to count at zero)
+
+(define (list-ref items n)
+  (if (= n 0)
+      (car items)
+      (list-ref (cdr items) (dec n))))
+
+; (list-ref (list 1 2 3 4) 3)  ; 4
+
+(define (length items)
+  (if (null? items)
+      0
+      (+ 1 (length (cdr items)))))
+
+(length (list 1 2 3))
