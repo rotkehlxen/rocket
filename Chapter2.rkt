@@ -366,10 +366,37 @@
       (list-ref (cdr items) (dec n))))
 
 ; (list-ref (list 1 2 3 4) 3)  ; 4
-
+; recursive definiton for length of list
 (define (length items)
   (if (null? items)
       0
       (+ 1 (length (cdr items)))))
 
-(length (list 1 2 3))
+; iterative implementation for length of a list
+(define (length-v2 items)
+  (define (go x counter)
+    (if (null? x)
+        counter
+        (go (cdr x) (inc counter))))
+  (go items 0))
+
+; (length-v2 (list 1 2 3))
+
+; append one list to another
+
+(define (append list1 list2)
+  (if (null? list1)
+      list2
+      (cons (car list1) (append (cdr list1) list2))))
+
+; (append (list 1 2 3) (list 4 5 6)) ; (1 2 3 4 5 6)
+
+(define (last-pair x)
+  (define (go last x)
+    (if (null? x)
+        last
+        (go (car x) (cdr x))))
+  (go nil x))
+
+; (last-pair (list 1 2 100))  ; 100
+; (last-pair (list))          ; ()
