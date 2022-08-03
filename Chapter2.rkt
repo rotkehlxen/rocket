@@ -400,3 +400,13 @@
 
 ; (last-pair (list 1 2 100))  ; 100
 ; (last-pair (list))          ; ()
+
+; reverse list
+(define (reverse x)
+  (define (go reversed-x rest)
+    (if (null? rest)
+        reversed-x
+        (go (cons (car rest) reversed-x) (cdr rest))))
+    (go nil x))
+
+; (reverse (list 3 4 5 8 10)) ; (10 8 5 4 3)
