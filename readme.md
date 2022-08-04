@@ -30,3 +30,15 @@ variables in a `let` expression, these can not be built depending on
 another, like e.g. a = 1 and b = a + 1, because these two variables are
 nothing more than the arguments of a lambda function (compare with version 1).
 
+## Functions with arbitrary number of arguments
+
+If you define a function f
+
+```lisp
+(define (f x . y)
+  (body x y))
+```
+
+and then call `(f 1 2 3 4)` its gonna set `x=1` and add all other arguments
+to y, as a list, so `y=(list 2 3 4)`.
+

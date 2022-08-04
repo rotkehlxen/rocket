@@ -432,8 +432,7 @@
 
 ; (cc 100 us-coins) ; 292
 
-; Dot notation for functions with arbitrary number of arguments
-; (define (same-parity x . y) ....)
+; Dot notation for functions with arbitrary number of arguments -----
 
 (define (only-even x)
   (if (null? x)
