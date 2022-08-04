@@ -411,7 +411,7 @@
 
 ; (reverse (list 3 4 5 8 10)) ; (10 8 5 4 3)
 
-;; Counting change from Chapter 1, now using lists
+;; Counting change from Chapter 1, now using lists -----
 (define us-coins (list 50 25 10 5 1))
 (define uk-coins (list 100 50 20 10 5 2 1 0.5))
 
@@ -431,3 +431,30 @@
                  (cc (- amount (first-denomination coin-values)) coin-values)))))
 
 ; (cc 100 us-coins) ; 292
+
+; Dot notation for functions with arbitrary number of arguments
+; (define (same-parity x . y) ....)
+
+(define (only-even x)
+  (if (null? x)
+      nil
+      (if (even? (car x))
+          (cons (car x) (only-even (cdr x)))
+          (only-even (cdr x)))))
+
+
+(define (only-uneven x)
+  (if (null? x)
+      nil
+      (if (not (even? (car x)))
+          (cons (car x) (only-uneven (cdr x)))
+          (only-uneven (cdr x)))))
+
+(define (same-parity x . y)
+  (if (even? x)
+      (cons x (only-even y))
+      (cons x (only-uneven y))))
+
+; (same-parity 1 2 3 4 5 6 7) ; (1 3 5 7)
+; (same-parity 2 3 4 5 6 7)   ; (2 4 6)
+  
