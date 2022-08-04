@@ -40,5 +40,5 @@ If you define a function f
 ```
 
 and then call `(f 1 2 3 4)` its gonna set `x=1` and add all other arguments
-to y, as a list, so `y=(list 2 3 4)`.
+to y as a list, so `y=(list 2 3 4)`.
 
