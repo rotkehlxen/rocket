@@ -494,3 +494,26 @@
       (my-for-each proc (cdr items)))))
 
 ; (my-for-each (lambda (x) (newline) (display x)) (list 1 2 3))
+
+;; Count leaves of the tree structure representation of a nested list
+(define (count-leaves x)
+  (cond ((null? x) 0)
+        ((not (pair? x)) 1)
+        (else (+ (count-leaves (car x))
+                 (count-leaves (cdr x))))))
+
+; (count-leaves (list 1 2 (list 1 2 3)))
+
+;; access element 7 from different heavily nested lists
+; (car (cdaddr (list 1 3 (list 5 7) 9)))                                              ; 7
+; (caar (list (list 7)))                                                              ; 7
+; (cadadr (cadadr (cadadr (list 1 (list 2 (list 3 (list 4 (list 5 (list 6 7)))))))))  ; 7
+
+
+; Cons combined with lists
+; (define x (list 1 2 3))
+; (define y (list 4 5 6))
+
+; (append x y) ; (1 2 3 4 5 6)
+; (cons x y)   ; ((1 2 3) 4 5 6)
+; (list x y)   ; ((1 2 3) (4 5 6))
