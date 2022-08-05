@@ -465,3 +465,32 @@
       (cons (* factor (car items)) (scale-list (cdr items) factor))))
 
 ; (scale-list (list 1 2 3 4) 0.5)
+; generalise this for any kind of procedure (with one arguemnt)
+
+(define (map2 proc items)
+  (if (null? items)
+      nil
+      (cons (proc (car items)) (map2 proc (cdr items)))))
+
+; (map2 abs (list 1 -2 3 -4)) ; (1 2 3 4)
+; epxress the list scaling in terms of map2 function
+(define (scale-list2 items factor)
+  (map2 (lambda (x) (* factor x)) items))
+
+; squaring a list, without map2 and with map2
+
+(define (square-list items)
+  (if (null? items)
+      nil
+      (cons (square (car items)) (square-list (cdr items)))))
+
+(define (square-list2 items)
+  (map2 square items))
+
+; an implementation of for-each (the cond expression allows one more line of code to be specified within a block
+(define (my-for-each proc items)
+  (cond ((not (null? items))
+      (proc (car items))
+      (my-for-each proc (cdr items)))))
+
+; (my-for-each (lambda (x) (newline) (display x)) (list 1 2 3))
