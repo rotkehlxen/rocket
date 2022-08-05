@@ -517,3 +517,24 @@
 ; (append x y) ; (1 2 3 4 5 6)
 ; (cons x y)   ; ((1 2 3) 4 5 6)
 ; (list x y)   ; ((1 2 3) (4 5 6))
+
+; Deep reversing of lists -----
+; (deep-reverse ((1 2) (3 4))) should be ((4 3) (2 1))
+; I reasonded that we can modify the reverse function as follows:
+; 1) call deep-reverse on every element added to the reversed list
+; 2) introduce a bottom case for reversing integers (or better: not pairs!), which
+;    is to return the integer itsself
+
+(define (deep-reverse x)
+  (define (go reversed-x rest)
+    (cond ((null? rest) reversed-x)
+          ((not (pair? rest)) rest)
+          (else (go (cons (deep-reverse (car rest)) reversed-x) (cdr rest)))))
+  (go nil x))
+
+
+; (deep-reverse (list 1 (list 2 3)))            ; ((3 2) 1)
+; (deep-reverse (list (list 1 2) (list 3 4)))   ; ((4 3) (2 1))
+; (deep-reverse 1)                              ; 1
+; (deep-reverse (list 1 2))                     ; (2 1)
+; (deep-reverse (list 1 (list 2 (list 3 4))))   ; (((4 3) 2) 1)
