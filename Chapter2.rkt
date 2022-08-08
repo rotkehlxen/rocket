@@ -538,3 +538,12 @@
 ; (deep-reverse 1)                              ; 1
 ; (deep-reverse (list 1 2))                     ; (2 1)
 ; (deep-reverse (list 1 (list 2 (list 3 4))))   ; (((4 3) 2) 1)
+
+; Fringe (or flatten a list)
+(define (fringe x)
+  (cond ((null? x) nil)
+        ((not (pair? x)) (list x))
+        (else (append (fringe (car x)) (fringe (cdr x))))))
+
+
+; (fringe (list 1 2 (list 3 4 (list 5 6 7)))) ; (1 2 3 4 5 6 7)
