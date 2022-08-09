@@ -547,3 +547,36 @@
 
 
 ; (fringe (list 1 2 (list 3 4 (list 5 6 7)))) ; (1 2 3 4 5 6 7)
+
+; Mobile -----
+
+(define (make-mobile left right)
+  (list left right))
+
+(define (left-branch mobile)
+  (car mobile))
+(define (right-branch mobile)
+  (cadr mobile))
+
+(define (make-branch length structure)
+  (list length structure))
+
+(define (branch-length branch)
+  (car branch))
+(define (branch-structure branch)
+  (cadr branch))
+
+(define (total-weight mobile)
+  (if (not (pair? (branch-structure mobile)))
+      (branch-structure mobile)
+      (+ (total-weight (left-branch mobile))
+         (total-weight (right-branch mobile)))))
+
+(define mymobile (make-mobile (make-branch 2 (make-mobile (make-branch 2 2) (make-branch 2 3)))
+                              (make-branch 2 4)))
+
+(left-branch (branch-structure (left-branch mymobile)))
+(right-branch (branch-structure (left-branch mymobile)))
+(right-branch mymobile)
+;(total-weight mymobile) should be 2 + 3 + 4 = 9
+  
