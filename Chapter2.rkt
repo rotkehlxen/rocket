@@ -566,17 +566,21 @@
 (define (branch-structure branch)
   (cadr branch))
 
+; the weight of a branch
+(define (total-weight-branch branch)
+  (let ((struc (branch-structure branch)))
+    (if (not (pair? struc))
+        struc
+        (+ (total-weight-branch (left-branch struc))
+           (total-weight-branch (right-branch struc))))))
+
+; the weight of a mobile expressed as the weight of its two branches
 (define (total-weight mobile)
-  (if (not (pair? (branch-structure mobile)))
-      (branch-structure mobile)
-      (+ (total-weight (left-branch mobile))
-         (total-weight (right-branch mobile)))))
+  (+ (total-weight-branch (left-branch mobile))
+     (total-weight-branch (right-branch mobile))))
 
 (define mymobile (make-mobile (make-branch 2 (make-mobile (make-branch 2 2) (make-branch 2 3)))
                               (make-branch 2 4)))
 
-(left-branch (branch-structure (left-branch mymobile)))
-(right-branch (branch-structure (left-branch mymobile)))
-(right-branch mymobile)
-;(total-weight mymobile) should be 2 + 3 + 4 = 9
+; (total-weight mymobile) ; is 2 + 3 + 4 = 9
   
