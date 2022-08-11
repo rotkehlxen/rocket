@@ -661,8 +661,7 @@
       (list nil)
       (let ((rest (subsets (cdr s))))
         (append rest
-                (map (lambda (rest) (append (list (car s))
-                                            rest))
+                (map (lambda (rest) (cons (car s) rest))
                      rest)))))
 
 ; (subsets (list 1 2 3)) ; (() (3) (2) (2 3) (1) (1 3) (1 2) (1 2 3))
