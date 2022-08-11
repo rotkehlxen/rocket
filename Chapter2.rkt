@@ -665,3 +665,26 @@
                      rest)))))
 
 ; (subsets (list 1 2 3)) ; (() (3) (2) (2 3) (1) (1 3) (1 2) (1 2 3))
+
+;; Sequence operations -----
+
+; filter elements of list by predicate
+(define (filter predicate sequence)
+  (cond ((null? sequence) nil)
+        ((predicate (car sequence))
+         (cons (car sequence) (filter predicate (cdr sequence))))
+        (else (filter predicate (cdr sequence)))))
+
+; (filter odd? (list 1 2 3 4 5)) ; (1 3 5)
+
+; accumulation (e.g. add up all elements of a sequence, or multiply all elements of a sequence
+
+(define (accumulate op initial sequence)
+  (if (null? sequence)
+      initial
+      (op (car sequence)
+          (accumulate op initial (cdr sequence)))))
+
+(accumulate + 0 (list 1 2 3 4 5))      ; 15
+(accumulate * 1 (list 1 2 3 4 5))      ; 120
+(accumulate cons nil (list 1 2 3 4 5)) ; (1 2 3 4 5)
