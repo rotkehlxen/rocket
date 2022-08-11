@@ -685,6 +685,17 @@
       (op (car sequence)
           (accumulate op initial (cdr sequence)))))
 
-(accumulate + 0 (list 1 2 3 4 5))      ; 15
-(accumulate * 1 (list 1 2 3 4 5))      ; 120
-(accumulate cons nil (list 1 2 3 4 5)) ; (1 2 3 4 5)
+; (accumulate + 0 (list 1 2 3 4 5))      ; 15
+; (accumulate * 1 (list 1 2 3 4 5))      ; 120
+; (accumulate cons nil (list 1 2 3 4 5)) ; (1 2 3 4 5)
+
+
+; enumerate: create all values between low and high (including low and high)
+(define (enumerate-interval low high)
+  (if (> low high)
+      nil
+      (cons low (enumerate-interval (inc low) high))))
+
+
+; (enumerate-interval 2 7) ; (2 3 4 5 6 7)
+  
