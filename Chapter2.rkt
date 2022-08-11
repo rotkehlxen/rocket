@@ -606,3 +606,46 @@
     (and tt (branch-balanced? lb) (branch-balanced? rb))))
 
 ; (mobile-balanced? mymobile) ; #t
+
+;; Mapping over Trees -----
+; A nested list can be seen as a tree. We can map a function to every element in a tree,
+; e.g. scale every element by a factor
+
+(define (scale-tree tree factor)
+  (cond ((null? tree) nil)
+        ((not (pair? tree)) (* tree factor))
+        (else (cons (scale-tree (car tree) factor)
+                    (scale-tree (cdr tree) factor)))))
+
+; (scale-tree (list 1 (list 2 (list 3 4) 5) (list 6 7)) 10) ; (10 (20 (30 40) 50) (60 70))
+; or square every element:
+
+(define (square-tree tree)
+  (cond ((null? tree) nil)
+        ((not (pair? tree)) (square tree))
+        (else (cons (square-tree (car tree))
+                    (square-tree (cdr tree))))))
+
+; alternatively we can use map to solve this problem:
+
+(define (scale-tree2 tree factor)
+  (map (lambda (sub-tree)
+         (if (pair? sub-tree)
+             (scale-tree2 sub-tree factor)
+             (* sub-tree factor))) tree))
+
+(define (square-tree2 tree)
+  (map (lambda (sub-tree)
+         (if (pair? sub-tree)
+             (square-tree2 sub-tree)
+             (square sub-tree))) tree))
+
+; and for any functions in general:
+(define (tree-map f tree)
+  (map (lambda (sub-tree)
+         (if (pair? sub-tree)
+             (tree-map f sub-tree)
+             (f sub-tree))) tree))
+
+(define (square-tree3 tree)
+  (tree-map square tree))
