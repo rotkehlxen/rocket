@@ -579,8 +579,30 @@
   (+ (total-weight-branch (left-branch mobile))
      (total-weight-branch (right-branch mobile))))
 
-(define mymobile (make-mobile (make-branch 2 (make-mobile (make-branch 2 2) (make-branch 2 3)))
+(define mymobile (make-mobile (make-branch 2 (make-mobile (make-branch 2 2) (make-branch 2 2)))
                               (make-branch 2 4)))
 
-; (total-weight mymobile) ; is 2 + 3 + 4 = 9
-  
+; (total-weight mymobile) ; is 2 + 2 + 4 = 8
+
+; Mobile balanced?
+
+(define (torque-branch b)
+  (let ((l (branch-length b))
+        (s (branch-structure b)))
+    (if (not (pair? s))
+        (* l s)
+        (* l (total-weight s)))))
+
+(define (branch-balanced? b)
+  (let ((s (branch-structure b)))
+    (if (not (pair? s))
+        #t
+        (mobile-balanced? s))))
+
+(define (mobile-balanced? m)
+  (let* ((lb ( left-branch m))
+         (rb (right-branch m))
+         (tt (= (torque-branch lb) (torque-branch rb))))
+    (and tt (branch-balanced? lb) (branch-balanced? rb))))
+
+; (mobile-balanced? mymobile) ; #t
