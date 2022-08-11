@@ -649,3 +649,20 @@
 
 (define (square-tree3 tree)
   (tree-map square tree))
+
+
+;; all subsets of set (set represented as list with distinct elements) -----
+; The idea is that all combinations can be represented as the sum of
+; 1) all combinations that don't use the first element in the set
+; 2) combinations of the first element in the set with all combinations that don't use the first element
+
+(define (subsets s)
+  (if (null? s)
+      (list nil)
+      (let ((rest (subsets (cdr s))))
+        (append rest
+                (map (lambda (rest) (append (list (car s))
+                                            rest))
+                     rest)))))
+
+; (subsets (list 1 2 3)) ; (() (3) (2) (2 3) (1) (1 3) (1 2) (1 2 3))
