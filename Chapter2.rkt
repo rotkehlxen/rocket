@@ -712,3 +712,15 @@
 
 (define (even-fibs n)
   (accumulate cons nil (filter even? (map fibonacci (enumerate-interval 0 n)))))
+
+; map defined via accumulate
+(define (map-accu p sequence)
+  (accumulate (lambda (x y) (cons (p x) y)) nil sequence))
+
+; append lists via accumulate
+(define (append-accu seq1 seq2)
+  (accumulate cons seq2 seq1))
+
+; length of lists via acuumulate
+(define (length-accu sequence)
+  (accumulate (lambda (x y) (+ 1 y)) 0 sequence))
