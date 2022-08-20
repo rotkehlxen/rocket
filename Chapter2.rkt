@@ -698,4 +698,17 @@
 
 
 ; (enumerate-interval 2 7) ; (2 3 4 5 6 7)
-  
+
+; sum-odd-squares of leaves of a tree in terms of sequence operations 
+(define (sum-odd-squares tree)
+  (accumulate + 0 (map square (filter odd? (fringe tree)))))
+
+; same for even fibonacci numbers
+(define (fibonacci n)
+  (cond ((= n 0) 0)
+        ((= n 1) 1)
+        (else (+ (fibonacci (- n 1))
+                  (fibonacci (- n 2))))))
+
+(define (even-fibs n)
+  (accumulate cons nil (filter even? (map fibonacci (enumerate-interval 0 n)))))
