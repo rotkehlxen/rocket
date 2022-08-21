@@ -724,3 +724,13 @@
 ; length of lists via acuumulate
 (define (length-accu sequence)
   (accumulate (lambda (x y) (+ 1 y)) 0 sequence))
+
+; Horners rule for evaluating polynomials
+(define (horner-eval x coefficient-sequence)
+  (accumulate (lambda (this-coeff higher-terms) (+ this-coeff
+                                                   (* higher-terms x)))
+              0
+              coefficient-sequence))
+
+; y = 1 + 3x + 5x^3 + x^5 evaluates to 79 for x=2
+; (horner-eval 2 (list 1 3 0 5 0 1)) ; 79
