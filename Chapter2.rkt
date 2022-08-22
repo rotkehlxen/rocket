@@ -734,3 +734,10 @@
 
 ; y = 1 + 3x + 5x^3 + x^5 evaluates to 79 for x=2
 ; (horner-eval 2 (list 1 3 0 5 0 1)) ; 79
+(define (count-leaves2 t)
+  (accumulate + 0 (map (lambda (t) (if (not (pair? t))
+                                       1
+                                       (count-leaves2 t)))
+                       t)))
+
+; (count-leaves2 (list 1 (list 2 (list 3 4 5)))) ; 5
